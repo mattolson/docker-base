@@ -27,10 +27,12 @@ RUN apt-get update &&\
     wget
 
 # Setup locale
-RUN dpkg-reconfigure locales && locale-gen --purge en_US.utf8
-ENV LANG en_US.utf8
-ENV LANGUAGE en_US.utf8
-ENV LC_CTYPE en_US.utf8
+RUN sed -i "s/^# en_US/en_US/" /etc/locale.gen &&\
+    locale-gen &&\
+    update-locale LANG=en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_CTYPE en_US.UTF-8
 
 # Cleanup
 RUN apt-get clean &&\
