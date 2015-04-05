@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM debian:wheezy
 MAINTAINER Matt Olson <matt@mattolson.com>
 
 ENV HOME /root
@@ -9,27 +9,35 @@ ENV INITRD No
 ## Prevent initscripts updates from breaking /dev/shm.
 ## https://journal.paul.querna.org/articles/2013/10/15/docker-ubuntu-on-rackspace/
 ## https://bugs.launchpad.net/launchpad/+bug/974584
-RUN dpkg-divert --local --rename --add /usr/bin/ischroot && ln -sf /bin/true /usr/bin/ischroot
+RUN dpkg-divert --local --rename --add /usr/bin/ischroot &&\
+    ln -sf /bin/true /usr/bin/ischroot
 
 # Install/upgrade packages
-RUN LC_ALL=C apt-get update &&\
+RUN apt-get update &&\
     apt-get install -y --no-install-recommends \
-    vim git-core curl wget less build-essential apt-transport-https ca-certificates \
-    software-properties-common language-pack-en &&\
-    apt-get dist-upgrade -y --no-install-recommends
+    apt-transport-https \
+    build-essential \
+    ca-certificates \
+    curl \
+    git-core \
+    less \
+    locales \
+    software-properties-common \
+    vim \
+    wget
 
-# Set locale
-RUN locale-gen en_US &&\
-    update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_CTYPE en_US.UTF-8
-
-# Use https for git
-RUN echo '[url "https://"]' >> /root/.gitconfig && echo '  insteadOf =git://' >> /root/.gitconfig
+# Setup locale
+RUN dpkg-reconfigure locales && locale-gen --purge en_US.utf8
+ENV LANG en_US.utf8
+ENV LANGUAGE en_US.utf8
+ENV LC_CTYPE en_US.utf8
 
 # Cleanup
 RUN apt-get clean &&\
     rm -rf /tmp/* /var/tmp/* &&\
     rm -rf /var/lib/apt/lists/*
 
-CMD ["/bin/bash"]
+# Use https for git
+RUN git config --global url."https://".insteadOf git://
+
+CMD ["bash"]
