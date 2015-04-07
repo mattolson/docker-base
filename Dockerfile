@@ -50,4 +50,4 @@ RUN curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/dow
 	  rm /usr/local/bin/gosu.asc &&\
 	  chmod +x /usr/local/bin/gosu
 
-CMD ["bash"]
+ENTRYPOINT ["bash"]
