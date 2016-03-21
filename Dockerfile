@@ -1,4 +1,4 @@
-FROM ubuntu:10.04
+FROM ubuntu:14.04
 MAINTAINER Matt Olson <matt@mattolson.com>
 
 ENV HOME /root
