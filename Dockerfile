@@ -32,9 +32,7 @@ ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
 # Cleanup
-RUN apt-get clean &&\
-    rm -rf /tmp/* /var/tmp/* &&\
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get clean && rm -rf /tmp/* /var/tmp/*
 
 # Use https for git
 RUN git config --global url."https://".insteadOf git://
