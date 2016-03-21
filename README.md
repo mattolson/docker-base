@@ -1,4 +1,4 @@
 # docker-base
 
-Basic docker base image built on Debian Wheezy.
+Basic docker base image built on Ubuntu LTS.
 

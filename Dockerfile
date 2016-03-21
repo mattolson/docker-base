@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM ubuntu:10.04
 MAINTAINER Matt Olson <matt@mattolson.com>
 
 ENV HOME /root
@@ -22,17 +22,14 @@ RUN apt-get update &&\
     git-core \
     less \
     locales \
-    software-properties-common \
     vim \
     wget
 
 # Setup locale
-RUN sed -i "s/^# en_US/en_US/" /etc/locale.gen &&\
-    locale-gen &&\
-    update-locale LANG=en_US.UTF-8
+RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
-ENV LC_CTYPE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
 
 # Cleanup
 RUN apt-get clean &&\
@@ -44,8 +41,8 @@ RUN git config --global url."https://".insteadOf git://
 
 # Install gosu for easy step-down from root
 RUN gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
-RUN curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture)" &&\
-	  curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture).asc" &&\
+RUN curl -o /usr/local/bin/gosu -fsSL "https://github.com/tianon/gosu/releases/download/1.7/gosu-$(dpkg --print-architecture)" &&\
+	  curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/1.7/gosu-$(dpkg --print-architecture).asc" &&\
 	  gpg --verify /usr/local/bin/gosu.asc &&\
 	  rm /usr/local/bin/gosu.asc &&\
 	  chmod +x /usr/local/bin/gosu
