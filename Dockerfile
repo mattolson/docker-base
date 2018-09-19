@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:18.04
 MAINTAINER Matt Olson <matt@mattolson.com>
 
 ENV HOME /root
@@ -20,6 +20,8 @@ RUN apt-get update &&\
     ca-certificates \
     curl \
     git-core \
+    gnupg \
+    iputils-ping \
     less \
     locales \
     vim \
@@ -38,10 +40,10 @@ RUN apt-get clean && rm -rf /tmp/* /var/tmp/*
 RUN git config --global url."https://".insteadOf git://
 
 # Install gosu for easy step-down from root
-RUN gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
-RUN curl -o /usr/local/bin/gosu -fsSL "https://github.com/tianon/gosu/releases/download/1.7/gosu-$(dpkg --print-architecture)" &&\
-	  curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/1.7/gosu-$(dpkg --print-architecture).asc" &&\
-	  gpg --verify /usr/local/bin/gosu.asc &&\
+RUN gpg --keyserver ipv4.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
+RUN curl -o /usr/local/bin/gosu -fsSL "https://github.com/tianon/gosu/releases/download/1.10/gosu-$(dpkg --print-architecture | awk -F- '{ print $NF }')" &&\
+	  curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/1.10/gosu-$(dpkg --print-architecture | awk -F- '{ print $NF }').asc" &&\
+	  gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu &&\
 	  rm /usr/local/bin/gosu.asc &&\
 	  chmod +x /usr/local/bin/gosu
 
