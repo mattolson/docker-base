@@ -23,6 +23,7 @@ RUN apt-get update &&\
     gnupg \
     iputils-ping \
     less \
+    lsb-release \
     locales \
     vim \
     wget
