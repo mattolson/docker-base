@@ -47,4 +47,3 @@ RUN curl -o /usr/local/bin/gosu -fsSL "https://github.com/tianon/gosu/releases/d
 	  rm /usr/local/bin/gosu.asc &&\
 	  chmod +x /usr/local/bin/gosu
 
-ENTRYPOINT ["bash"]
