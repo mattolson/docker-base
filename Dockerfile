@@ -1,5 +1,4 @@
 FROM ubuntu:22.04
-MAINTAINER Matt Olson <matt@mattolson.com>
 
 ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
