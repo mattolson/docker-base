@@ -1,8 +1,8 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
-ENV HOME /root
-ENV DEBIAN_FRONTEND noninteractive
-ENV INITRD No
+ENV HOME=/root
+ENV DEBIAN_FRONTEND=noninteractive
+ENV INITRD=No
 
 ## Replace the 'ischroot' tool to make it always return true.
 ## Prevent initscripts updates from breaking /dev/shm.
@@ -29,9 +29,9 @@ RUN apt-get update &&\
 
 # Setup locale
 RUN locale-gen en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
 
 # Cleanup
 RUN apt-get clean && rm -rf /tmp/* /var/tmp/*
@@ -46,4 +46,3 @@ RUN curl -o /usr/local/bin/gosu -fsSL "https://github.com/tianon/gosu/releases/d
 	  gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu &&\
 	  rm /usr/local/bin/gosu.asc &&\
 	  chmod +x /usr/local/bin/gosu
-
